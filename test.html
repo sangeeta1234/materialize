@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Patient Survey</title>
+	<link href="css/jquery-ui.css" rel="stylesheet">
+	<style type="text/css">
+		.error{
+			color:red;
+		}
+	</style>
+</head>
+<body>
+<div>
+	<h1>Basic Information</h1>
+	<form  id="Patient" name="Patient" method="Post">
+		<div>
+			<label>Name</label>
+			<input type="text" name="name">
+		</div>
+		<div>
+			<label>Email</label>
+			<input type="text" name="email">
+		</div>
+		<div>
+			<label>Mobile</label>
+			<input type="text" name="mobile" >
+		</div>
+		<div>
+			<label>Date of birth</label>
+			<input type="text" name="dob" class="datepicker">
+		</div>
+		<div>
+			<label>Patient In date</label>
+			<input type="text" name="IN Date" id="fromdate">
+		</div>
+		<div>
+			<label>Patient Out date</label>
+			<input type="text" name="IN Date" id="todate">
+		</div>
+		<div>
+			<label>Type od Diseases</label>
+			<select name="diseases">
+				<option = "Maleria">Maleria</option>
+				<option = "Fever">Fever</option>
+			</select>
+		</div>
+		<div>
+			<input type="submit" id="onclickbutton" name="submit" value="value">
+		</div>
+
+	</form>
+</div>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.js"></script>
+
+<script>
+$.validator.addMethod(
+        "regex",
+        function(value, element, regexp) {
+            var re = new RegExp(regexp);
+            return this.optional(element) || re.test(value);
+        },
+        "Please check your input."
+);
+
+$('#Patient').validate({
+	 rules: {
+	    name: { required: true, regex : /^[\d\s]+$/, minlength: 5 }
+	}
+});
+
+
+
+var dateToday = new Date(); 
+$(".datepicker" ).datepicker({
+	  dateFormat: "yy-mm-dd",
+	  minDate: dateToday
+});
+
+$("#fromdate" ).datepicker({
+  	dateFormat: "yy-mm-dd",
+	onSelect: function (selected) {
+	    var dt = new Date(selected);
+	    dt.setDate(dt.getDate() + 2);
+	    $("#todate").datepicker("option", "minDate", dt);
+	}
+});
+
+$("#todate" ).datepicker({
+	dateFormat: "yy-mm-dd",
+	onSelect: function (selected) {
+	        var dt = new Date(selected);
+	        dt.setDate(dt.getDate() - 1);
+	        $("#txtFrom").datepicker("option", "maxDate", dt);
+	    }
+});
+</script>
+
+<script type="text/javascript">
+	function check_date() {
+		var fromdate = $('#fromdate').val();
+		var todate = $('#todate').val();
+		var dt1 = new Date(fromdate);
+		var dt2 = new Date(todate);
+		alert(dt1);
+		alert(dt2);
+		if(dt1>dt2){
+			alert(fromdate+'Is Should is less then from date');
+			return false;
+		}	
+	}
+	/*$('#onclickbutton').on('click' ,function function_name() {
+		var fromdate = $('#fromdate').val();
+		var todate = $('#todate').val();
+		var dt1 = new Date(fromdate);
+		var dt2 = new Date(todate);
+		alert(dt1);
+		alert(dt2);
+		if(dt1>dt2){
+			alert(fromdate+'Is Should is less then from date');
+		}	
+	})*/
+</script>
+	<script type="text/javascript">
+
+</script>
+</body>
+</html>
